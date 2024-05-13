@@ -37,7 +37,7 @@ char	*ft_path_find(char *cmd1, char **envp)
 	free(temp);
 	while (*envp)
 	{
-		var_PATH = ft_strnstr(*envp, "PATH", ft_strlen(*envp));
+		var_PATH = ft_strnstr(*envp, "PATH", 4);
 		if (var_PATH)
 		{
 			arr = ft_split(var_PATH, ':');
@@ -46,6 +46,7 @@ char	*ft_path_find(char *cmd1, char **envp)
 		}
 		envp++;
 	}
+
 	free(cmd_mod);
 	return (valid_path);
 }
@@ -55,24 +56,28 @@ char	**ft_extract_args(char *str, char *cmd_name)
 	int arg_count;
 	int counter;
 	char **args_list;
+	int args_start;
 
 	counter = 0;
 	arg_count = 1;
-	while (str[counter] != '-')
-		counter++;
+	while (str[counter++] != '-')
+		args_start = counter + 1;
 	while (str[counter++])
 		if (ft_isalpha(str[counter]))
-		{
 			arg_count++;
-		}
-	args_list = malloc(ft_strlen(cmd_name) + (arg_count + 1) + 1);
+	args_list = malloc(sizeof(char *) * (ft_strlen(cmd_name) + (arg_count + 1) + 1));
 	args_list[0] =  cmd_name;
 	counter = 1;
-	while (counter > args_list)
+	while(arg_count >= counter)
 	{
-		args_list[counter] = ft_strdup() // here i finished
+		if (ft_isalpha(str[args_start]))
+		{
+			args_list[counter] = ft_substr(str, args_start, 1);
+			counter++;
+		}
+		args_start++;
 	}
-	printf("%d\n", arg_count);
+	return (args_list);
 }
 
 char *ft_extract_name(char *str)
@@ -84,8 +89,19 @@ char *ft_extract_name(char *str)
 	while (ft_isalpha(str[counter]))
 		counter++;
 	cmd_name = malloc(sizeof(char) * counter + 1);
-	ft_strlcpy(cmd_name, str, counter);
+	ft_strlcpy(cmd_name, str, counter + 1);
 	return (cmd_name);
+}
+
+void ft_free_arg(char **cmd1_args)
+{
+	int counter;
+
+	counter = 0;
+	while(counter)
+	{
+
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -93,20 +109,27 @@ int	main(int argc, char **argv, char **envp)
 	char	*cmd1_path;
 	char	*cmd2_path;
 	char	*cmd1_name;
-	char	*cmd2_name;	
+	char	*cmd2_name;
 	char	**cmd1_args;
 	char	**cmd2_args;
 
 	cmd1_name = ft_extract_name(argv[2]);
+	cmd2_name = ft_extract_name(argv[3]);
+
+
 	cmd1_path = ft_path_find(cmd1_name, envp);
-	cmd2_path = ft_path_find(argv[3], envp);
-	cmd1_args = ft_extract_args(argv[2], cmd1_name);
-	printf("path: %s\n", cmd1_path);
-	// printf("path: %s\n", cmd2_path);
+	cmd2_path = ft_path_find(cmd2_name, envp);
+	cmd1_args = ft_extract_args(argv[2], cmd1_path);
+	//cmd2_args = ft_extract_args(argv[3], cmd1_path);
+
+
+	//printf("path: %s\n", cmd1_path);
+	//printf("path: %s\n", cmd2_path);
 	free(cmd1_name);
-	// free(cmd2_name);
+	free(cmd2_name);
 	free(cmd1_path);
 	free(cmd2_path);
+	//ft_free_arg(cmd1_args);
 }
 
-// test:  infile "ls" "wc" outfile
+// test:  infile "ls -lsa" "wc" outfile
