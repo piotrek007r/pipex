@@ -2,58 +2,79 @@
 #include "Includes/libft.h"
 #include "Includes/pipex.h"
 
-// void	ft_pipex(cmds cmds)
-// {
-// 	int		fd[2];
-// 	int		id;
-// 	int input;
-// 	int output;
+void ft_child_process(cmds cmds, char **argv, char **envp)
+{
+	int input;
+	input = open(argv[1], O_RDONLY);
+	if (input == -1)
+		ft_error(2);
+	close(cmds.fd[0]);
+	if (dup2(input, 0) == -1)
+		ft_error(3);
+	if (dup2(cmds.fd[1], 1) == -1)
+		ft_error(3);
+	execve(cmds.path1, cmds.args1, envp);
+	close(cmds.fd[1]);	
+}
 
-// 	int	i = 0;
+void ft_parent_process(cmds cmds, char **argv, char **envp)
+{
+	int output;
+
+	output = open(argv[4], O_WRONLY | O_CREAT);
+	if (output == -1)
+		ft_error(4);
+	wait(0);
+	close(cmds.fd[1]);	 
+	if(dup2(cmds.fd[0], 0))
+		ft_error(3);
+	if (dup2(output, 1) == -1)
+		ft_error(3);
+	// execve(cmds.path2, cmds.args2, envp);
+	close(cmds.fd[0]);	 
+	return;
+}
+
+void	ft_pipex(cmds cmds, char **argv, char **envp)
+{
+
+	if (pipe(cmds.fd) == 1)
+		ft_error(1);
 	
-	
-// 	int input = open(cmds.input_path, O_RDONLY);
-// }
+
+	cmds.id = fork();
+	if (cmds.id == 0)
+	{
+		ft_child_process(cmds, argv, envp);
+		printf("--ok--\n");
+
+	}
+	else
+		ft_parent_process(cmds, argv, envp);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	cmds	cmds;
 
-	cmds.cmd1_args = ft_split(argv[2], ' ');
-	cmds.cmd2_args = ft_split(argv[3], ' ');
-	cmds.cmd1_name = cmds.cmd1_args[0];
-	cmds.cmd2_name = cmds.cmd1_args[0];
-	cmds.cmd1_path = ft_path_find(cmds.cmd1_name, envp);
-	cmds.cmd2_path = ft_path_find(cmds.cmd2_name, envp);
+	cmds.args1 = ft_split(argv[2], ' ');
+	cmds.args2 = ft_split(argv[3], ' ');
+	cmds.name1 = cmds.args1[0];
+	cmds.name2 = cmds.args2[0];
+	cmds.path1 = ft_path_find(cmds.name1, envp);
+	cmds.path2 = ft_path_find(cmds.name2, envp);
 	
-	// ft_pipex(cmds);
+	ft_pipex(cmds, argv, envp);
 
-	free(cmds.cmd1_path);
-	free(cmds.cmd2_path);
-	ft_free_arg(cmds.cmd1_args);
-	ft_free_arg(cmds.cmd2_args);
-	free(cmds.cmd1_args);
-	free(cmds.cmd2_args);
+	free(cmds.path1);
+	free(cmds.path2);
+	ft_free_arg(cmds.args1);
+	ft_free_arg(cmds.args2);
+	free(cmds.args1);
+	free(cmds.args2);
 }
 
 
-// test:  infile "ls -lsa" "wc" outfile
-
-	// int i = 0;
-
-	// printf("name: %s\n", cmds.cmd1_name);
-	// printf("path: %s\n", cmds.cmd1_path);
+// test:  infile.txt "grep this" "wc -l" outfile.txt
 
 
-	// while (cmds.cmd1_args[i] != NULL)
-	// {
-	// 	printf("cur arg %s\n", cmds.cmd1_args[i]);
-
-	// 	i++;
-	// }
-	// i = 0;
-	// while (cmds.cmd2_args[i] != NULL)
-	// {
-	// 	printf("cur arg %s\n", cmds.cmd2_args[i]);
-	// 	i++;
-	// }

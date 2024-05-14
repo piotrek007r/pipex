@@ -4,24 +4,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 #include "libft.h"
 #include "ft_printf.h"
 
 typedef struct
 {
-	char	*cmd1_path;
-	char	*cmd2_path;
-	char	*cmd1_name;
-	char	*cmd2_name;
-	char	**cmd1_args;
-	char	**cmd2_args;
-    char    *input_path;
-    char    *output_path;
-
+	char	*path1;
+	char	*path2;
+	char	*name1;
+	char	*name2;
+	char	**args1;
+	char	**args2;
+	int 	id;
+	int		fd[2];
 }			cmds;
 
 void	ft_freemem(char **arr);
-void ft_free_arg(char **cmd1_args);
+void 	ft_free_arg(char **cmd1_args);
 
 // Input formating
 
@@ -31,6 +31,7 @@ char	**ft_extract_args(char *str, char *cmd_name);
 char *ft_extract_name(char *str);
 
 
+void ft_error(int key);
 
 
 
