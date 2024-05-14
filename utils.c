@@ -1,4 +1,6 @@
-#include "Includes/pipex.h"
+#include "ft_printf/ft_printf.h"
+#include "libft/libft.h"
+#include "pipex.h"
 
 
 void	ft_freemem(char **arr)
@@ -34,7 +36,9 @@ void ft_error(int key)
 		ft_printf("Error! Can't open from input file\n");
 	if (key == 3)
 		ft_printf("Error! Unable to open new fd\n");
-	if (key == 2)
+	if (key == 4)
 		ft_printf("Error! Can't open from output file fd\n");
+	if (key == 5)
+		ft_printf("Error! Invalid number of arguments\n");
 	exit(1);
 }

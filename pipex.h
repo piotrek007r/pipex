@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-#include "libft.h"
-#include "ft_printf.h"
+#include "libft/libft.h"
+#include "ft_printf/ft_printf.h"
 
 typedef struct
 {

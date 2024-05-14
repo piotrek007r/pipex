@@ -1,6 +1,6 @@
-#include "Includes/ft_printf.h"
-#include "Includes/libft.h"
-#include "Includes/pipex.h"
+#include "ft_printf/ft_printf.h"
+#include "libft/libft.h"
+#include "pipex.h"
 
 void ft_child_process(cmds cmds, char **argv, char **envp)
 {
@@ -21,7 +21,7 @@ void ft_parent_process(cmds cmds, char **argv, char **envp)
 {
 	int output;
 
-	output = open(argv[4], O_WRONLY | O_CREAT);
+	output = open(argv[4], O_WRONLY | O_CREAT, 0777);
 	if (output == -1)
 		ft_error(4);
 	wait(0);
@@ -30,7 +30,7 @@ void ft_parent_process(cmds cmds, char **argv, char **envp)
 		ft_error(3);
 	if (dup2(output, 1) == -1)
 		ft_error(3);
-	// execve(cmds.path2, cmds.args2, envp);
+	execve(cmds.path2, cmds.args2, envp);
 	close(cmds.fd[0]);	 
 	return;
 }
@@ -57,6 +57,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	cmds	cmds;
 
+	if(argc != 5)
+		ft_error(6);
 	cmds.args1 = ft_split(argv[2], ' ');
 	cmds.args2 = ft_split(argv[3], ' ');
 	cmds.name1 = cmds.args1[0];

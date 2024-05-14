@@ -1,6 +1,6 @@
-#include "Includes/ft_printf.h"
-#include "Includes/libft.h"
-#include "Includes/pipex.h"
+#include "ft_printf/ft_printf.h"
+#include "libft/libft.h"
+#include "pipex.h"
 
 char	*ft_path_cmp(char **arr, char *cmd_mod)
 {
@@ -9,6 +9,7 @@ char	*ft_path_cmp(char **arr, char *cmd_mod)
 	int		counter;
 
 	counter = 0;
+	valid_path = NULL;
 	while (arr[counter])
 	{
 		temp = ft_strjoin(arr[counter], cmd_mod);
@@ -31,6 +32,7 @@ char	*ft_path_find(char *cmd1, char **envp)
 	char	*temp;
 	char	*cmd_mod;
 
+	valid_path = NULL;
 	temp = ft_strdup("/");
 	cmd_mod = ft_strjoin(temp, cmd1);
 	free(temp);
