@@ -1,135 +1,59 @@
 #include "Includes/ft_printf.h"
 #include "Includes/libft.h"
 #include "Includes/pipex.h"
-#include <stdio.h>
 
-char	*ft_path_cmp(char **arr, char *cmd_mod)
-{
-	char	*valid_path;
-	char	*temp;
-	int		counter;
+// void	ft_pipex(cmds cmds)
+// {
+// 	int		fd[2];
+// 	int		id;
+// 	int input;
+// 	int output;
 
-	counter = 0;
-	while (arr[counter])
-	{
-		temp = ft_strjoin(arr[counter], cmd_mod);
-		if (access(temp, X_OK) == 0)
-		{
-			valid_path = temp;
-			break ;
-		}
-		free(temp);
-		counter++;
-	}
-	return (valid_path);
-}
-
-char	*ft_path_find(char *cmd1, char **envp)
-{
-	char	*valid_path;
-	char	*var_PATH;
-	char	**arr;
-	char	*temp;
-	char	*cmd_mod;
-
-	temp = ft_strdup("/");
-	cmd_mod = ft_strjoin(temp, cmd1);
-	free(temp);
-	while (*envp)
-	{
-		var_PATH = ft_strnstr(*envp, "PATH", 4);
-		if (var_PATH)
-		{
-			arr = ft_split(var_PATH, ':');
-			valid_path = ft_path_cmp(arr, cmd_mod);
-			ft_freemem(arr);
-		}
-		envp++;
-	}
-
-	free(cmd_mod);
-	return (valid_path);
-}
-
-char	**ft_extract_args(char *str, char *cmd_name)
-{
-	int arg_count;
-	int counter;
-	char **args_list;
-	int args_start;
-
-	counter = 0;
-	arg_count = 1;
-	while (str[counter++] != '-')
-		args_start = counter + 1;
-	while (str[counter++])
-		if (ft_isalpha(str[counter]))
-			arg_count++;
-	args_list = malloc(sizeof(char *) * (ft_strlen(cmd_name) + (arg_count + 1) + 1));
-	args_list[0] =  cmd_name;
-	counter = 1;
-	while(arg_count >= counter)
-	{
-		if (ft_isalpha(str[args_start]))
-		{
-			args_list[counter] = ft_substr(str, args_start, 1);
-			counter++;
-		}
-		args_start++;
-	}
-	return (args_list);
-}
-
-char *ft_extract_name(char *str)
-{
-	int counter;
-	char *cmd_name;
-
-	counter = 0;
-	while (ft_isalpha(str[counter]))
-		counter++;
-	cmd_name = malloc(sizeof(char) * counter + 1);
-	ft_strlcpy(cmd_name, str, counter + 1);
-	return (cmd_name);
-}
-
-void ft_free_arg(char **cmd1_args)
-{
-	int counter;
-
-	counter = 0;
-	while(counter)
-	{
-
-	}
-}
+// 	int	i = 0;
+	
+	
+// 	int input = open(cmds.input_path, O_RDONLY);
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*cmd1_path;
-	char	*cmd2_path;
-	char	*cmd1_name;
-	char	*cmd2_name;
-	char	**cmd1_args;
-	char	**cmd2_args;
+	cmds	cmds;
 
-	cmd1_name = ft_extract_name(argv[2]);
-	cmd2_name = ft_extract_name(argv[3]);
+	cmds.cmd1_args = ft_split(argv[2], ' ');
+	cmds.cmd2_args = ft_split(argv[3], ' ');
+	cmds.cmd1_name = cmds.cmd1_args[0];
+	cmds.cmd2_name = cmds.cmd1_args[0];
+	cmds.cmd1_path = ft_path_find(cmds.cmd1_name, envp);
+	cmds.cmd2_path = ft_path_find(cmds.cmd2_name, envp);
+	
+	// ft_pipex(cmds);
 
-
-	cmd1_path = ft_path_find(cmd1_name, envp);
-	cmd2_path = ft_path_find(cmd2_name, envp);
-	cmd1_args = ft_extract_args(argv[2], cmd1_path);
-	//cmd2_args = ft_extract_args(argv[3], cmd1_path);
-
-
-	//printf("path: %s\n", cmd1_path);
-	//printf("path: %s\n", cmd2_path);
-	free(cmd1_name);
-	free(cmd2_name);
-	free(cmd1_path);
-	free(cmd2_path);
-	//ft_free_arg(cmd1_args);
+	free(cmds.cmd1_path);
+	free(cmds.cmd2_path);
+	ft_free_arg(cmds.cmd1_args);
+	ft_free_arg(cmds.cmd2_args);
+	free(cmds.cmd1_args);
+	free(cmds.cmd2_args);
 }
 
+
 // test:  infile "ls -lsa" "wc" outfile
+
+	// int i = 0;
+
+	// printf("name: %s\n", cmds.cmd1_name);
+	// printf("path: %s\n", cmds.cmd1_path);
+
+
+	// while (cmds.cmd1_args[i] != NULL)
+	// {
+	// 	printf("cur arg %s\n", cmds.cmd1_args[i]);
+
+	// 	i++;
+	// }
+	// i = 0;
+	// while (cmds.cmd2_args[i] != NULL)
+	// {
+	// 	printf("cur arg %s\n", cmds.cmd2_args[i]);
+	// 	i++;
+	// }

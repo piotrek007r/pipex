@@ -14,6 +14,18 @@ void	ft_freemem(char **arr)
 	free(arr);
 }
 
+void ft_free_arg(char **cmd1_args)
+{
+	int counter;
+
+	counter = 0;
+	while(cmd1_args[counter])
+	{
+		free(cmd1_args[counter]);
+		counter++;
+	}
+}
+
 // char	*ft_path_cmp(char **arr)
 // {
 // 	int		counter;
