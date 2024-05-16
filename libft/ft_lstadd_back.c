@@ -3,35 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruszkie <pruszkie@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:29:14 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/04/21 12:19:39 by pruszkie         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:21:01 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
 
-void ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-    t_list *current;
+	t_list	*current;
 
-    current = *lst;
-    if (*lst == NULL)
-    {
-        *lst = new;
-        return;
-    }
-
-    while(current->next != NULL)
-    {
-        current = current->next;
-    }
-    current->next = new;
+	current = *lst;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	while (current->next != NULL)
+	{
+		current = current->next;
+	}
+	current->next = new;
 }
 
-//int main ()
+// int main ()
 //{
 //    t_list *root, *el2, new_node;
 //    root = malloc(sizeof(t_list));
@@ -44,12 +42,11 @@ void ft_lstadd_back(t_list **lst, t_list *new)
 //    new_node.content = "New node";
 //    new_node.next = NULL;
 
-
 //    printf("%s\n", (char *)root->content);
 //    printf("%s\n", (char *)el2->content);
 
 //    ft_lstadd_back(&root, &new_node);
 
 //    // printf("%s\n", (char *)new_node->content);
-//    return 0;
+//    return (0);
 //}

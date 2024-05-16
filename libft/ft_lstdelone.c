@@ -3,29 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruszkie <pruszkie@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:30:23 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/04/21 13:48:04 by pruszkie         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:21:43 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//void del_string(void *content)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
+{
+	if (lst == NULL)
+		return ;
+	(*del)(lst->content);
+	free(lst);
+}
+// void del_string(void *content)
 //{
 //	free(content);
 //}
 
-void ft_lstdelone(t_list *lst, void (*del)(void*))
-{
-	if (lst == NULL)
-		return;
-	(*del)(lst->content);
-	free(lst);
-}
-
-//int main()
+// int main()
 //{
 //	t_list *root;
 //	root = malloc(sizeof(t_list));

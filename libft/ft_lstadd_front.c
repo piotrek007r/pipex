@@ -3,21 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruszkie <pruszkie@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 11:29:23 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/04/21 11:29:26 by pruszkie         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:21:05 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libft.h"
 
-void ft_lstadd_front(t_list **lst, t_list *new)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-    new->next = *lst;
-
-    *lst = new;
+	new->next = *lst;
+	*lst = new;
 }
 
 // int main()
@@ -27,7 +25,7 @@ void ft_lstadd_front(t_list **lst, t_list *new)
 //     if (new == NULL)
 //     {
 //         // Handle memory allocation error
-//         return 1;
+//         return (1);
 //     }
 // }
 //     // Assuming new node content needs to be initialized
@@ -46,5 +44,5 @@ void ft_lstadd_front(t_list **lst, t_list *new)
 //     // Remember to free allocated memory when done
 //     free(new);
 
-//     return 0;
+//     return (0);
 // }

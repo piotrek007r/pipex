@@ -1,14 +1,14 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include "libft/libft.h"
-#include "ft_printf/ft_printf.h"
+# include "ft_printf/ft_printf.h"
+# include "libft/libft.h"
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
 
-typedef struct
+typedef struct t_cmds
 {
 	char	*path1;
 	char	*path2;
@@ -16,23 +16,32 @@ typedef struct
 	char	*name2;
 	char	**args1;
 	char	**args2;
-	int 	id;
+	int		id;
+	int		id2;
 	int		fd[2];
-}			cmds;
+}			t_cmds;
 
-void	ft_freemem(char **arr);
-void 	ft_free_arg(char **cmd1_args);
+// main
+
+void		ft_gchild1_process(t_cmds *cmds, char **argv, char **envp);
+void		ft_gchild2_process(t_cmds *cmds, char **argv, char **envp);
+void		ft_pipex(t_cmds *cmds, char **argv, char **envp);
 
 // Input formating
 
-char	*ft_path_cmp(char **arr, char *cmd_mod);
-char	*ft_path_find(char *cmd1, char **envp);
-char	**ft_extract_args(char *str, char *cmd_name);
-char *ft_extract_name(char *str);
+char		*ft_path_cmp(char **arr, char *cmd_mod);
+char		*ft_path_find(char *cmd1, char **envp);
 
+// free
 
-void ft_error(int key);
+void		ft_free_arg(char **cmd1_args);
+void		ft_freemem(char **arr);
+void		ft_full_free(t_cmds *cmds);
 
+// error
 
+void		ft_check_args(t_cmds *cmds);
+void		ft_error_check(int key);
+void		ft_error(t_cmds *cmds);
 
 #endif

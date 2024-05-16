@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 13:47:45 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/05/14 23:04:07 by piotr            ###   ########.fr       */
+/*   Updated: 2024/05/16 18:22:35 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ft_putchar(char c, int *count)
 {
 	if (write(1, &c, 1) == -1)
-		return;
+		return ;
 	(*count)++;
 }
 

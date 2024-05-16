@@ -3,27 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pruszkie <pruszkie@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:30:39 by pruszkie          #+#    #+#             */
-/*   Updated: 2024/04/21 13:58:01 by pruszkie         ###   ########.fr       */
+/*   Updated: 2024/05/16 18:21:17 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-//void del(void *content)
-//{
-//	free(content);
-//}
-
-void ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	t_list *prev;
+	t_list	*prev;
 
 	if (*lst == NULL)
-		return;
-	while(*lst != NULL)
+		return ;
+	while (*lst != NULL)
 	{
 		prev = (*lst);
 		del((*lst)->content);
@@ -32,7 +27,7 @@ void ft_lstclear(t_list **lst, void (*del)(void*))
 	}
 }
 
-//int main()
+// int main()
 //{
 //	t_list *root, *node2, *node3;
 //	root = malloc(sizeof(t_list));
@@ -51,7 +46,6 @@ void ft_lstclear(t_list **lst, void (*del)(void*))
 //	printf("Content of root: %s\n", (char *)root->content);
 //	printf("Content of node2: %s\n", (char *)root->content);
 //	printf("Content of node3: %s\n", (char *)root->content);
-
 
 //	ft_lstclear(&root, &del);
 
