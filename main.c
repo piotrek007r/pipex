@@ -13,8 +13,11 @@ void	ft_gchild1_process(t_cmds *cmds, char **argv, char **envp)
 	if (dup2(cmds->fd[1], 1) == -1)
 		ft_error(cmds);
 	if (execve(cmds->path1, cmds->args1, envp) == -1)
+	{
+		close(cmds->fd[1]);
 		ft_error(cmds);
-	close(cmds->fd[1]);
+	}
+	return ;
 }
 
 void	ft_gchild2_process(t_cmds *cmds, char **argv, char **envp)
@@ -24,15 +27,16 @@ void	ft_gchild2_process(t_cmds *cmds, char **argv, char **envp)
 	output = open(argv[4], O_WRONLY | O_CREAT, 0777);
 	if (output == -1)
 		ft_error(cmds);
-	wait(0);
 	close(cmds->fd[1]);
 	if (dup2(cmds->fd[0], 0))
 		ft_error(cmds);
 	if (dup2(output, 1) == -1)
 		ft_error(cmds);
-	execve(cmds->path2, cmds->args2, envp);
-	ft_error(cmds);
-	close(cmds->fd[0]);
+	if (execve(cmds->path2, cmds->args2, envp) == -1)
+	{
+		close(cmds->fd[0]);
+		ft_error(cmds);
+	}
 	return ;
 }
 
@@ -47,7 +51,16 @@ void	ft_pipex(t_cmds *cmds, char **argv, char **envp)
 		if (cmds->id2 == 0)
 			ft_gchild1_process(cmds, argv, envp);
 		else
+		{
+			wait(0);
 			ft_gchild2_process(cmds, argv, envp);
+		}
+	}
+	if (cmds->id != 0)
+	{
+		close(cmds->fd[0]);
+		close(cmds->fd[1]);
+		wait(0);
 	}
 }
 

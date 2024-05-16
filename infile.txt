@@ -1,4 +1,0 @@
-this is sparta!
-new line.
-this Second line.
-and this is the end.
